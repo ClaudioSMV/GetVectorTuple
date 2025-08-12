@@ -39,3 +39,9 @@
 
 # debug information files
 *.dwo
+
+# Folders
+bin/
+output/
+clas12_data/
+.vscode/
