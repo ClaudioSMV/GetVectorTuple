@@ -57,7 +57,7 @@ void GetVectorTuples::Init(TTree *tree) {
    // fChain->SetMakeClass(1);
 
    // fChain->SetBranchAddress("run_num", &run_num);
-   // fChain->SetBranchAddress("event_num", &event_num);
+   fChain->SetBranchAddress("event_num", &event_num);
    fChain->SetBranchAddress("E_beam", &E_beam);
    fChain->SetBranchAddress("pid", &pid);
    fChain->SetBranchAddress("charge", &charge);
@@ -104,6 +104,7 @@ void GetVectorTuples::Loop(TTree *output, struct rec_p &rec) {
     nentries = 100; // DEBUG
 
     int iElectron = 0;
+    int electron_idx = 0;
     // bool is_trigger_electron = true;
     Long64_t nbytes = 0, nb = 0;
     for (Long64_t jentry = 0; jentry < nentries; jentry++) {
@@ -111,28 +112,34 @@ void GetVectorTuples::Loop(TTree *output, struct rec_p &rec) {
         if (ientry < 0)
             break;
         nb = fChain->GetEntry(jentry);
-        nbytes += nb;
+        // nbytes += nb;
         // if (Cut(ientry) < 0) continue;
 
-        if (trigger_status) {
-            // It's trigger electron
-            ClearParticleVar_REC(rec); // Clear particles associated to previous electron
-            AssignElectronVar_REC(this, rec, iElectron); // TODO: Finish this!
+        if (trigger_status) { // Clear particles' info from previous electron
+            ClearParticleVar_REC(rec);
+            electron_idx = event_num;
+            continue;
+        }
+
+        // Loop over entries associated to trigger
+        while ((event_num == electron_idx) && (jentry < nentries)) {
+            if (this->GetCategorization() == "pi+" || this->GetCategorization() == "pi-") {
+                AssignParticleVar_REC(this, rec);
+                nbytes += nb;
+            }
+            jentry++;
+            nb = fChain->GetEntry(jentry);
+        }
+        // Get back to last-associated-particle entry after exiting loop
+        jentry--;
+        nb = fChain->GetEntry(jentry);
+
+        if (rec.pid.size() > 0) { // save only if there was at least one good pion
             iElectron++;
+            AssignElectronVar_REC(this, rec, iElectron);
+            output->Fill();
         }
-        else {
-            // It's associated particle
-            if (this->GetCategorization() != "pi+" && this->GetCategorization() != "pi-")
-                continue;
-            AssignParticleVar_REC(this, rec);
-        }
-
-        output->Fill();
-
     }
-
-    // fout->Write();
-    // fout->Close();
 }
 
 int main(int argc, char **argv) {
