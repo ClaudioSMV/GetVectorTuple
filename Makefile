@@ -31,8 +31,8 @@ $(BINDIR)/GetVectorTuples: $(OBJS)
 	$(CXX) $(LDFLAGS) -o $@ $^ $(LIBS)
 
 $(BINDIR)/%.o: $(SRCDIR)/%.cpp
-	$(MKDIR_P) $(BINDIR)
-	$(MKDIR_P) ./output
+	@$(MKDIR_P) $(BINDIR)
+	@$(MKDIR_P) ./output
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
