@@ -101,7 +101,6 @@ void GetVectorTuples::Loop(TTree *output, struct rec_p &rec) {
         return;
 
     Long64_t nentries = fChain->GetEntries();
-    nentries = 100; // DEBUG
 
     int iElectron = 0;
     int electron_idx = 0;
