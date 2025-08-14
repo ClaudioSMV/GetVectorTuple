@@ -110,6 +110,10 @@ void GetVectorTuple::Loop(TTree *output, struct rec_p &rec) {
         Long64_t ientry = LoadTree(jentry);
         if (ientry < 0)
             break;
+
+        if (jentry % 100000 == 0)
+            printf("Progress at %6.2f%%\n", 100. * (double)jentry/nentries);
+
         nb = fChain->GetEntry(jentry);
         // nbytes += nb;
         // if (Cut(ientry) < 0) continue;
