@@ -146,6 +146,14 @@ public:
         return TMath::Sqrt(mass * mass + p * p);
     }
 
+    Double_t ThetaPQ() {
+        return theta_PQ * TMath::RadToDeg();
+    }
+
+    Double_t PhiPQ() {
+        return phi_PQ * TMath::RadToDeg();
+    }
+
     Double_t Mx2() { // (Int_t k, Bool_t kind = 0, Double_t Identificator::mass = 0.13957) {
         // Returns missing mass of the particle
         return W2 - 2. * nu * z_h * (nu + kMprt) + mass * mass +

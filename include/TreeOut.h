@@ -309,8 +309,8 @@ void AssignParticleVar_REC(GetVectorTuple *t, struct rec_p &rec) {
     rec.ThetaLab.push_back(t->ThetaLab());
     rec.Eh.push_back(t->Eh());
     rec.Zh.push_back(t->z_h);
-    rec.ThetaPQ.push_back(t->theta_PQ);
-    rec.PhiPQ.push_back(t->phi_PQ);
+    rec.ThetaPQ.push_back(t->ThetaPQ());
+    rec.PhiPQ.push_back(t->PhiPQ());
     // Double_t fCosThetaPQ = (fPz * (kEbeam - t->Pz(0)) - fPx * t->Px(0) - fPy * t->Py(0)) / (TMath::Sqrt(t->Nu() * t->Nu() + t->Q2()) * fP);
     // Double_t fPt2 = fP * fP * (1 - fCosThetaPQ * fCosThetaPQ);
     // Double_t fPl2 = fP * fP * fCosThetaPQ * fCosThetaPQ;
