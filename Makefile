@@ -19,14 +19,14 @@ INCLUDES := -I./include
 LIBS := $(ROOTGLIBS)
 
 # Source and object files
-SRCS = $(SRCDIR)/GetVectorTuples.cpp
+SRCS = $(SRCDIR)/GetVectorTuple.cpp
 OBJS = $(SRCS:$(SRCDIR)/%.cpp=$(BINDIR)/%.o)
 
 .PHONY: all clean
 
-all: $(BINDIR)/GetVectorTuples
+all: $(BINDIR)/GetVectorTuple
 
-$(BINDIR)/GetVectorTuples: $(OBJS)
+$(BINDIR)/GetVectorTuple: $(OBJS)
 	@echo "Doing application" $@ 
 	$(CXX) $(LDFLAGS) -o $@ $^ $(LIBS)
 

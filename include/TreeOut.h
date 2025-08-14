@@ -5,7 +5,7 @@
 #include "Headers.h"
 // #include "Math.hxx"
 // #include "PDG.hxx"
-#include "GetVectorTuples.h"
+#include "GetVectorTuple.h"
 
 struct rec_p {
     // electron (46)
@@ -220,7 +220,7 @@ void SetOutputBranches_REC(TTree *tree, struct rec_p &rec) {
     tree->Branch("evnt", &rec.evnt);
 }
 
-void AssignElectronVar_REC(GetVectorTuples *t, struct rec_p &rec, Int_t evnt) {
+void AssignElectronVar_REC(GetVectorTuple *t, struct rec_p &rec, Int_t evnt) {
     // reconstructed electron (46 variables)
     rec.Q2 = t->Q2;
     rec.W = t->W();
@@ -276,7 +276,7 @@ void AssignElectronVar_REC(GetVectorTuples *t, struct rec_p &rec, Int_t evnt) {
     rec.evnt = evnt;
 }
 
-void AssignParticleVar_REC(GetVectorTuples *t, struct rec_p &rec) {
+void AssignParticleVar_REC(GetVectorTuple *t, struct rec_p &rec) {
     // reconstructed particles (50 variables)
     // Int_t fPid = particleID(t->GetCategorization(row, gDataKind, gTargetOption));
     rec.pid.push_back(t->pid); // (fPid);

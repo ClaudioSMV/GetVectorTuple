@@ -5,8 +5,8 @@
 // found on file: clas12/ntuples_dc_020136.root
 //////////////////////////////////////////////////////////
 
-#ifndef GetVectorTuples_h
-#define GetVectorTuples_h
+#ifndef GetVectorTuple_h
+#define GetVectorTuple_h
 
 #include "Headers.h"
 #include <TROOT.h>
@@ -14,7 +14,7 @@
 #include <TFile.h>
 #include <TTree.h>
 
-class GetVectorTuples {
+class GetVectorTuple {
 public :
     TTree          *fChain;   //!pointer to the analyzed TTree or TChain
     Int_t           fCurrent; //!current Tree number in a TChain
@@ -101,8 +101,8 @@ public :
     // TBranch        *b_phi_PQ;   //!
     // TBranch        *b_theta_PQ;   //!
 
-    GetVectorTuples(TTree *tree=0);
-    virtual ~GetVectorTuples();
+    GetVectorTuple(TTree *tree=0);
+    virtual ~GetVectorTuple();
     // virtual Int_t    Cut(Long64_t entry);
     virtual Int_t    GetEntry(Long64_t entry);
     virtual Long64_t LoadTree(Long64_t entry);

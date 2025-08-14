@@ -1,11 +1,11 @@
-#include "GetVectorTuples.h"
+#include "GetVectorTuple.h"
 #include "UI.h"
 #include "TreeOut.h"
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
 
-GetVectorTuples::GetVectorTuples(TTree *tree) : fChain(0) {
+GetVectorTuple::GetVectorTuple(TTree *tree) : fChain(0) {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
@@ -19,17 +19,17 @@ GetVectorTuples::GetVectorTuples(TTree *tree) : fChain(0) {
    Init(tree);
 }
 
-GetVectorTuples::~GetVectorTuples() {
+GetVectorTuple::~GetVectorTuple() {
    if (!fChain) return;
    delete fChain->GetCurrentFile();
 }
 
-Int_t GetVectorTuples::GetEntry(Long64_t entry) {
+Int_t GetVectorTuple::GetEntry(Long64_t entry) {
 // Read contents of entry.
    if (!fChain) return 0;
    return fChain->GetEntry(entry);
 }
-Long64_t GetVectorTuples::LoadTree(Long64_t entry) {
+Long64_t GetVectorTuple::LoadTree(Long64_t entry) {
 // Set the environment to read one entry
    if (!fChain) return -5;
    Long64_t centry = fChain->LoadTree(entry);
@@ -41,7 +41,7 @@ Long64_t GetVectorTuples::LoadTree(Long64_t entry) {
    return centry;
 }
 
-void GetVectorTuples::Init(TTree *tree) {
+void GetVectorTuple::Init(TTree *tree) {
    // The Init() function is called when the selector needs to initialize
    // a new tree or chain. Typically here the branch addresses and branch
    // pointers of the tree will be set.
@@ -96,7 +96,7 @@ void GetVectorTuples::Init(TTree *tree) {
    fChain->SetBranchAddress("theta_PQ", &theta_PQ);
 }
 
-void GetVectorTuples::Loop(TTree *output, struct rec_p &rec) {
+void GetVectorTuple::Loop(TTree *output, struct rec_p &rec) {
     if (fChain == 0)
         return;
 
@@ -162,7 +162,7 @@ int main(int argc, char **argv) {
     struct rec_p rec;
     SetOutputBranches_REC(outtree, rec);
 
-    GetVectorTuples *vtuple = new GetVectorTuples(intree);
+    GetVectorTuple *vtuple = new GetVectorTuple(intree);
     vtuple->Loop(outtree, rec);
 
     // write and close output file
