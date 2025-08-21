@@ -45,7 +45,7 @@ void parseCommandLine(int argc, char *argv[]) {
         std::cerr << "Empty command line. Execute ./bin/GetVectorTuple -h to print usage." << std::endl;
         exit(1);
     }
-    while ((c = getopt(argc, argv, "hr:")) != -1) {
+    while ((c = getopt(argc, argv, "hr:a")) != -1) {
         switch (c) {
         case 'h':
             printUsage();
@@ -56,6 +56,9 @@ void parseCommandLine(int argc, char *argv[]) {
         //     break;
         case 'r':
             gRunNumber = optarg;
+            break;
+        case 'a':
+            gRunNumber = "*";
             break;
         default:
             std::cerr << "Unrecognized argument. Execute ./bin/GetVectorTuple -h to print usage." << std::endl;

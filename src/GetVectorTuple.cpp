@@ -104,15 +104,16 @@ void GetVectorTuple::Loop(TTree *output, struct rec_p &rec) {
 
     int iElectron = 0;
     int electron_idx = 0;
-    // bool is_trigger_electron = true;
     Long64_t nbytes = 0, nb = 0;
     for (Long64_t jentry = 0; jentry < nentries; jentry++) {
         Long64_t ientry = LoadTree(jentry);
         if (ientry < 0)
             break;
 
-        if (jentry % 100000 == 0)
-            printf("Progress at %6.2f%%\n", 100. * (double)jentry/nentries);
+        if (jentry % 100000 == 0) {
+            printf("\rProgress at %6.2f%%", 100. * (double)jentry/nentries);
+            fflush(stdout);
+        }
 
         nb = fChain->GetEntry(jentry);
         // nbytes += nb;
@@ -143,21 +144,22 @@ void GetVectorTuple::Loop(TTree *output, struct rec_p &rec) {
             output->Fill();
         }
     }
+    printf("\rProgress completed!"); fflush(stdout);
 }
 
 int main(int argc, char **argv) {
-
+    // Handle arguments
     parseCommandLine(argc, argv);
     printOptions();
 
-    // assign options
     TString gInputFile = "ntuples_dc_" + gRunNumber + ".root";
-    // TString gOutputFile = "GVT" + gTargetOption + "_" + gRunNumber + ".root";
-    TString gOutputFile = "GVT_" + gRunNumber + ".root";
+    TString gOutputFile = "VTuples_" + gRunNumber + ".root";
+    if (gRunNumber == "*")
+        gOutputFile = "VTuples_FullDataset.root";
 
     // Input
-    TFile *fin = TFile::Open("clas12_data/" + gInputFile, "READ");
-    TTree *intree = (TTree*)fin->Get("data");
+    TChain *intree = new TChain("data");
+    intree->Add("clas12_data/" + gInputFile);
 
     // Output
     TFile *fout = TFile::Open("output/" + gOutputFile, "RECREATE");
@@ -172,7 +174,7 @@ int main(int argc, char **argv) {
     // write and close output file
     fout->Write();
     fout->Close();
-    std::cout << "File " << gOutputFile << " has been created!" << std::endl;
+    std::cout << "\nFile " << gOutputFile << " has been created!" << std::endl;
 
     return 0;
 }
